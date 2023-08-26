@@ -10,6 +10,28 @@ PATH = r"C:\Program Files (x86)\chromedriver.exe"
 #The web browser we want to use is chrome, and the web driver web driver for this browser is located at this PATH
 driver = webdriver.Chrome(PATH)
 
+def get_url(search_term):
+    """This function converts the search term to a format that can be used in the URL.
+
+    Args:
+        search_term (String): gets the string of the search term
+
+    Returns:
+        String: This returns the formatted string needed for the search term to be searched in the url
+    """
+    template = "https://www.amazon.ca/s?k={}"
+    search_term= search_term.replace(' ', '+')
+    
+
+    #add term query to url
+    url = template.format(search_term)
+    
+    #add page query placeholder
+    url += "&page={}"
+    
+    
+    return url
+
 #Getting the information needed.
 def extract_record(item):
     
