@@ -60,14 +60,13 @@ def extract_record(item):
     return result
 
 def main(search_term):
-    driver = webdriver.Chrome(PATH)
     records = []
     url = get_url(search_term)
     
     
     for page in range(1,4):
+        
         driver.get(url.format(page))
-        driver = webdriver.Chrome(PATH)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         results = soup.find_all("div",{"data-component-type" : "s-search-result"})
         
