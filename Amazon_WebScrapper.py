@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver #webdriver is the one driving the action;links up w/ the browser, and performs actions
 from selenium.webdriver.common.keys import Keys #lets you to type something in the searchbar and enter and see all the search results
 
-PATH = r"C:\Program Files (x86)\chromedriver.exe"
+PATH = "C:\Program Files (x86)\chromedriver.exe" #Path where the chromedriver is stored
 
 #The web browser we want to use is chrome, and the web driver web driver for this browser is located at this PATH
 driver = webdriver.Chrome(PATH)
@@ -14,10 +14,10 @@ def get_url(search_term):
     """This function converts the search term to a format that can be used in the URL.
 
     Args:
-        search_term (String): gets the string of the search term
+        search_term (str): The search term to be searched on Amazon.
 
     Returns:
-        String: This returns the formatted string needed for the search term to be searched in the url
+        str: The formatted URL for the search term.
     """
     template = "https://www.amazon.ca/s?k={}"
     search_term= search_term.replace(' ', '+')
@@ -32,8 +32,18 @@ def get_url(search_term):
     
     return url
 
-#Getting the information needed.
+
 def extract_record(item):
+    """ This function extracts information such as description, price, rating, review count, and URL for each product listing on the page.
+
+    Args:
+        item (Tag): The HTML tag representing a product's listing.
+        
+
+    Returns:
+        Tuple : This will return a tuple containing the description, price, rating, review count, and URL of the product.
+
+    """
     
     #description and url
     atag = item.h2.a # that is where the info in HTML is stored for that item. ie:name and link to the product
@@ -60,6 +70,12 @@ def extract_record(item):
     return result
 
 def main(search_term):
+    """This function scrapes Amazon search results for a given search term and saves the information to a CSV file.
+
+
+    Args:
+        search_term (str): The search term to be used on Amazon.
+    """
     records = []
     url = get_url(search_term)
     
@@ -76,13 +92,16 @@ def main(search_term):
                 records.append(record)
     
     driver.close()
+    
     # save data to csv file
     with open("results1.csv", "w", newline = "", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["Description", "Price", "Rating", "ReviewCount", "Url"])
         writer.writerows(records)
-        
+
+    print(results)
+    
     
 if __name__ == "__main__":
-    main("Ultrawide monitor")
+    main("Ultrawide monitor") # <-- The product you want to be searched and get information on.
     
