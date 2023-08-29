@@ -2,7 +2,7 @@ import csv
 from bs4 import BeautifulSoup
 
 ### Startup the webdriver
-from selenium import webdriver #webdriver is the one driving the action;links up w/ the browser, and performs actions
+from selenium import webdriver 
 from selenium.webdriver.common.keys import Keys #lets you to type something in the searchbar and enter and see all the search results
 
 PATH = "C:\Program Files (x86)\chromedriver.exe" #Path where the chromedriver is stored
@@ -99,9 +99,8 @@ def main(search_term):
         writer.writerow(["Description", "Price", "Rating", "ReviewCount", "Url"])
         writer.writerows(records)
 
-    print(results)
     
     
 if __name__ == "__main__":
-    main("Ultrawide monitor") # <-- The product you want to be searched and get information on.
+    main("protein shaker bottle") # <-- The product you want to be searched and get information on.
     
