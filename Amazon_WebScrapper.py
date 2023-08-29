@@ -58,4 +58,32 @@ def extract_record(item):
     result = (description, price, rating, review_count, url)
     
     return result
+
+def main(search_term):
+    driver = webdriver.Chrome(PATH)
+    records = []
+    url = get_url(search_term)
+    
+    
+    for page in range(1,4):
+        driver.get(url.format(page))
+        driver = webdriver.Chrome(PATH)
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        results = soup.find_all("div",{"data-component-type" : "s-search-result"})
+        
+        for item in results:
+            record = extract_record(item)
+            if record:
+                records.append(record)
+    
+    driver.close()
+    # save data to csv file
+    with open("results1.csv", "w", newline = "", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Description", "Price", "Rating", "ReviewCount", "Url"])
+        writer.writerows(records)
+        
+    
+if __name__ == "__main__":
+    main("Ultrawide monitor")
     
