@@ -44,7 +44,6 @@ By completing this project, I've gained practical experience in web scraping tec
 ## Prerequisites 🛠️
 
 To run this project, you'll need:
-
 - Python 3.x 🐍
 - ChromeDriver (for Selenium) 🌐
 - Required Python libraries: `selenium`, `beautifulsoup4` 📚
