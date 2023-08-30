@@ -8,9 +8,9 @@ This project demonstrates web scraping using Python's Selenium and BeautifulSoup
 
 - [Why I Did This Project?](#why-i-did-this-project-)
 - [Lessons Learned](#lessons-learned-)
-- [Prerequisites](#prerequisites-)
+- [Prerequisites](#Prerequisites-)
 - [Installation](#installation-)
-- [Usage](#usage-)
+- [Usage](#Usage-)
 
 ## Why I Did This Project? 🤔
 
