@@ -6,11 +6,11 @@ This project demonstrates web scraping using Python's Selenium and BeautifulSoup
 
 ## Table of Contents 📋
 
-- [Why I Did This Project?](#why-i-did-this-project)
-- [Lessons Learned](#lessons-learned)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
+- [Why I Did This Project?](#why-i-did-this-project-)
+- [Lessons Learned](#lessons-learned-)
+- [Prerequisites](#prerequisites-)
+- [Installation](#installation-)
+- [Usage](#usage-)
 
 ## Why I Did This Project? 🤔
 
