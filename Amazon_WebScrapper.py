@@ -94,7 +94,7 @@ def main(search_term):
     driver.close()
     
     # save data to csv file
-    with open("results1.csv", "w", newline = "", encoding="utf-8") as f:
+    with open("Amazon_Scraping_Results.csv", "w", newline = "", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["Description", "Price", "Rating", "ReviewCount", "Url"])
         writer.writerows(records)
@@ -102,5 +102,5 @@ def main(search_term):
     
     
 if __name__ == "__main__":
-    main("protein shaker bottle") # <-- The product you want to be searched and get information on.
+    main("Protein shaker bottle") # <-- The product you want to be searched and get information on.
     
