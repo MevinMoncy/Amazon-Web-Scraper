@@ -14,7 +14,7 @@ This project demonstrates web scraping using Python's Selenium and BeautifulSoup
 
 ## Why I Did This Project? 🤔
 
-In embarking on this project, I aimed to enhance my Python programming skills and delve into the world of web scraping. As a coding enthusiast, I recognized the potential in mastering web scraping—a skill that unlocks the ability to extract valuable insights from websites for various applications.
+In embarking on this project, I aimed to enhance my Python programming skills and delve into the world of web scraping. As a coding enthusiast, I recognized the potential in mastering web scraping, a skill that unlocks the ability to extract valuable insights from websites for various applications.
 
 This project also provided the opportunity to explore two powerful libraries: Selenium and BeautifulSoup. Through these tools, I honed my ability to automate web interactions and parse HTML content, adding valuable skills to my toolkit.
 
@@ -40,7 +40,6 @@ Throughout the development of this project, I gained several valuable insights:
 
 By completing this project, I've gained practical experience in web scraping techniques and learned how to extract valuable insights from websites using Python.
 
-
 ## Prerequisites 🛠️
 
 To run this project, you'll need:
@@ -48,12 +47,14 @@ To run this project, you'll need:
 - ChromeDriver (for Selenium) 🌐
 - Required Python libraries: `selenium`, `beautifulsoup4` 📚
 
+
 ## Installation 🚀
 
 1. Clone the repository to your local machine:
  - git clone https://github.com/MevinMoncy/amazon-web-scraping.git
    
 2. Download the appropriate ChromeDriver executable from the official website and place it in the project's directory.
+
 
 ## Usage 🚀
 
@@ -70,19 +71,23 @@ Make sure you have Python 3.x installed. Then, install the required libraries us
 
 Download the appropriate WebDriver for your browser (e.g., Chrome WebDriver) and place it in the project directory. Update the `PATH` variable in the code with the path to your WebDriver.
 
+
 4. **Run the Scraper:**
 
 Modify the `main` function with your desired search term (e.g., "protein shaker bottle") to scrape. Then, run the script.
 
 The script will initiate the browser, perform the search on Amazon, scrape the product details, and save them in a CSV file named `results1.csv`.
 
+
 5. **Explore the CSV Data:**
 
 Once the script completes, you'll find a `results1.csv` file in the project directory. Open this CSV file using a spreadsheet application to explore and filter the collected product information.
 
+
 6. **Customization:**
 
 Feel free to customize the script to scrape additional information or refine the scraping process according to your needs. You can adjust the data extraction logic and CSV output format in the `extract_record` function.
+
 
 7. **Note:**
 
