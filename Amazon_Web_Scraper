@@ -1,106 +1,69 @@
 import csv
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-### Startup the webdriver
-from selenium import webdriver 
-from selenium.webdriver.common.keys import Keys #lets you to type something in the searchbar and enter and see all the search results
-
-PATH = "C:\Program Files (x86)\chromedriver.exe" #Path where the chromedriver is stored
-
-#The web browser we want to use is chrome, and the web driver web driver for this browser is located at this PATH
-driver = webdriver.Chrome(PATH)
+PATH = "C:\\Program Files (x86)\\chromedriver.exe"
+options = Options()
+options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+service = Service(PATH)
+driver = webdriver.Chrome(service=service, options=options)
 
 def get_url(search_term):
-    """This function converts the search term to a format that can be used in the URL.
-
-    Args:
-        search_term (str): The search term to be searched on Amazon.
-
-    Returns:
-        str: The formatted URL for the search term.
-    """
-    template = "https://www.amazon.ca/s?k={}"
-    search_term= search_term.replace(' ', '+')
-    
-
-    #add term query to url
-    url = template.format(search_term)
-    
-    #add page query placeholder
-    url += "&page={}"
-    
-    
-    return url
-
+    search_term = search_term.replace(' ', '+')
+    return f"https://www.amazon.ca/s?k={search_term}&page={{}}"
 
 def extract_record(item):
-    """ This function extracts information such as description, price, rating, review count, and URL for each product listing on the page.
+    atag = item.h2.a
+    description = atag.text.strip()
+    url = "https://www.amazon.ca" + atag.get("href")
 
-    Args:
-        item (Tag): The HTML tag representing a product's listing.
-        
-
-    Returns:
-        Tuple : This will return a tuple containing the description, price, rating, review count, and URL of the product.
-
-    """
-    
-    #description and url
-    atag = item.h2.a # that is where the info in HTML is stored for that item. ie:name and link to the product
-    
-    description = atag.text.strip() #gets the name of the product
-    url = "https://www.amazon.ca/" + atag.get("href") #gets the url of the product
-    
     try:
-        #price
-        price_parent = item.find("span", "a-price")
-        price = price_parent.find("span", "a-offscreen").text
+        price = item.find("span", class_="a-price").find("span", class_="a-offscreen").text
     except AttributeError:
-        return
+        return None
+
     try:
-        #rating and review count
         rating = item.i.text
-        review_count = item.find("span",{"class" :"a-size-base", "class":"s-underline-text"}).text
+        review_count = item.select_one("span.a-size-base.s-underline-text").text
     except AttributeError:
         rating = ""
         review_count = ""
 
-    result = (description, price, rating, review_count, url)
-    
-    return result
+    return (description, price, rating, review_count, url)
 
 def main(search_term):
-    """This function scrapes Amazon search results for a given search term and saves the information to a CSV file.
-
-
-    Args:
-        search_term (str): The search term to be used on Amazon.
-    """
     records = []
     url = get_url(search_term)
-    
-    
-    for page in range(1,4):
-        
-        driver.get(url.format(page))
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        results = soup.find_all("div",{"data-component-type" : "s-search-result"})
-        
+
+    for page in range(1, 4):
+        try:
+            driver.get(url.format(page))
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div[data-component-type='s-search-result']"))
+            )
+        except Exception as e:
+            print(f"Failed to load page {page}: {e}")
+            continue
+
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        results = soup.find_all("div", {"data-component-type": "s-search-result"})
+
         for item in results:
             record = extract_record(item)
             if record:
                 records.append(record)
-    
-    driver.close()
-    
-    # save data to csv file
-    with open("Amazon_Scraping_Results.csv", "w", newline = "", encoding="utf-8") as f:
+
+    driver.quit()
+    filename = f"Amazon_Scraping_Results_{search_term.replace(' ', '_')}.csv"
+    with open(filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["Description", "Price", "Rating", "ReviewCount", "Url"])
         writer.writerows(records)
 
-    
-    
 if __name__ == "__main__":
-    main("Protein shaker bottle") # <-- The product you want to be searched and get information on.
-    
+    main("Protein shaker bottle")
